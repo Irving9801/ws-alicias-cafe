@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "server": "nodemon src/index.js",
+    "start": "node server",
+    "server": "nodemon server",
     "data:import": "node src/seeder"
   },
   "keywords": [],

@@ -1,10 +1,10 @@
 import express from "express";
 // const mongoose = require("mongoose");
 import dotenv from "dotenv";
-import productRoutes from "./routes/menuRoutes.js";
-import userRoutes from './routes/userRoutes.js'
-import connectDB from "./config/db.js";
-import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import productRoutes from "./src/routes/menuRoutes.js";
+import userRoutes from './src/routes/userRoutes.js'
+import connectDB from "./src/config/db.js";
+import { notFound, errorHandler } from "./src/middleware/errorMiddleware.js";
 
 dotenv.config();
 

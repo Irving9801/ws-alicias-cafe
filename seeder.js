@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-import users from './data/users.js'
-import products from './data/products.js'
-import User from './models/userModel.js'
-import Product from './models/menuModel.js'
-import connectDB from './config/db.js'
+import users from './src/data/users.js'
+import products from './src/data/products.js'
+import User from './src/models/userModel.js'
+import Product from './src/models/menuModel.js'
+import connectDB from './src/config/db.js'
 
 dotenv.config()
 
