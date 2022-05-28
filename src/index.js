@@ -1,50 +1,32 @@
-const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const userRoute = require("./routes/menu");
-const path = require("path");
+import express from "express";
+// const mongoose = require("mongoose");
+import dotenv from "dotenv";
+import productRoutes from "./routes/menuRoutes.js";
+import userRoutes from './routes/userRoutes.js'
+import connectDB from "./config/db.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
-//swagger
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerSpec = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "User API",
-      version: "1.0.0",
-    },
-    servers: [
-      {
-        url: "http://localhost:9000",
-      },
-    ],
-  },
-  apis: [`${path.join(__dirname, "./routes/*.js")}`],
-};
+dotenv.config();
 
+connectDB();
 //settings
 const app = express();
-const port = process.env.PORT || 9000;
+// if (process.env.NODE_ENV === 'development') {
+//   app.use(morgan('dev'))
+// }
+const PORT= process.env.PORT || 5000;
 
-//middlewares
-app.use(express.json());
-app.use("/api", userRoute);
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerJsDoc(swaggerSpec))
-);
-//routes
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+app.use(express.json())
+// app.use("/api", userRoute);
+app.use("/api/menu", productRoutes);
+app.use('/api/users', userRoutes)
+
+app.get('/', (req, res) => {
+  res.send('API is running....')
+})
 
 // mongoose connection
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
-
+app.use(notFound);
+app.use(errorHandler);
 // server listening
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
