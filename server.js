@@ -1,5 +1,5 @@
 import express from "express";
-// const mongoose = require("mongoose");
+import morgan from "morgan";
 import dotenv from "dotenv";
 import productRoutes from "./src/routes/menuRoutes.js";
 import userRoutes from './src/routes/userRoutes.js'
@@ -11,9 +11,9 @@ dotenv.config();
 connectDB();
 //settings
 const app = express();
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(morgan('dev'))
-// }
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 const PORT= process.env.PORT || 5000;
 
 app.use(express.json())
