@@ -1,10 +1,11 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/menuModel.js";
+import Recipes from "../models/recipesModel.js";
 
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
-const getProducts = asyncHandler(async (req, res) => {
+const getRecipes = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
 
@@ -17,22 +18,22 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword })
+  const count = await Recipes.countDocuments({ ...keyword });
+  const recipes = await Recipes.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc    Fetch single product
-// @route   GET /api/products/:id
+// @route   GET /api/Recipes/:id
 // @access  Public
-const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+const getRecipesById = asyncHandler(async (req, res) => {
+  const recipes = await Recipes.findById(req.params.id);
 
-  if (product) {
-    res.json(product);
+  if (recipes) {
+    res.json(recipes);
   } else {
     res.status(404);
     throw new Error("Product not found");
@@ -60,7 +61,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: req.body.name,
-    price : req.body.price,
+    price: req.body.price,
     user: req.user._id,
     image: "/images/sample.jpg",
     brand,
@@ -100,62 +101,37 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Create new review
+// @desc    Create new recipe
 // @route   POST /api/products/:id/reviews
 // @access  Private
-const createProductReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
+const createRecipes = asyncHandler(async (req, res) => {
+  const recipes = new Recipes({
+    user: req.user._id,
+    nameRecipes: req.body.nameRecipes,
+    image: req.body.image,
+    preTime: req.body.preTime,
+    cookTime: req.body.cookTime,
+    serving: req.body.serving,
+    category: req.body.category,
+    descriptionRecipes: req.body.descriptionRecipes,
+    Ingredientes: req.body.Ingredientes,
+  });
 
-  const product = await Product.findById(req.params.id);
+  const recipe = await recipes.save();
 
-  if (product) {
-    const alreadyReviewed = product.reviews.find(
-      (r) => r.user.toString() === req.user._id.toString()
-    );
 
-    if (alreadyReviewed) {
-      res.status(400);
-      throw new Error("Product already reviewed");
-    }
+    res.status(201).json(recipe);
 
-    const review = {
-      name: req.user.name,
-      rating: Number(rating),
-      comment,
-      user: req.user._id,
-    };
-
-    product.reviews.push(review);
-
-    product.numReviews = product.reviews.length;
-
-    product.rating =
-      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      product.reviews.length;
-
-    await product.save();
-    res.status(201).json({ message: "Review added" });
-  } else {
     res.status(404);
     throw new Error("Product not found");
-  }
-});
-
-// @desc    Get top rated products
-// @route   GET /api/products/top
-// @access  Public
-const getTopProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
-
-  res.json(products);
+  
 });
 
 export {
-  getProducts,
-  getProductById,
+  getRecipes,
+  getRecipesById,
   deleteProduct,
   createProduct,
   updateProduct,
-  createProductReview,
-  getTopProducts,
+  createRecipes,
 };
