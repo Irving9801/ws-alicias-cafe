@@ -43,8 +43,8 @@ const getRecipesById = asyncHandler(async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
-const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+const deleteRecipes = asyncHandler(async (req, res) => {
+  const product = await Recipes.findById(req.params.id);
 
   if (product) {
     await product.remove();
@@ -114,7 +114,7 @@ const createRecipes = asyncHandler(async (req, res) => {
     serving: req.body.serving,
     category: req.body.category,
     descriptionRecipes: req.body.descriptionRecipes,
-    Ingredientes: req.body.Ingredientes,
+    Ingredientes: req.body.Instruccion,
   });
 
   const recipe = await recipes.save();
@@ -130,7 +130,7 @@ const createRecipes = asyncHandler(async (req, res) => {
 export {
   getRecipes,
   getRecipesById,
-  deleteProduct,
+  deleteRecipes,
   createProduct,
   updateProduct,
   createRecipes,

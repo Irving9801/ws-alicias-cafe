@@ -8,6 +8,7 @@ import userRoutes from "./src/routes/userRoutes.js";
 import recipesRoutes from "./src/routes/recipesRoutes.js";
 import connectDB from "./src/config/db.js";
 import { notFound, errorHandler } from "./src/middleware/errorMiddleware.js";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV === "development") {
 }
 const PORT = process.env.PORT || 5000;
 app.use(cors());
+app.use(bodyParser({limit: '5mb'}));
 app.use(express.json());
 app.use("/api/menu", menuRoutes);
 app.use("/api/recipes", recipesRoutes);

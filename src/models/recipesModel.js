@@ -44,7 +44,14 @@ const RecipesSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    Ingredientes: [IngredientesSchema],
+    Ingredientes: {
+      type: Array,
+      required: true,
+    },
+    Instruccion: {
+      type: Array,
+      required: true,
+    },
   },
   {
     timestamps: true,
