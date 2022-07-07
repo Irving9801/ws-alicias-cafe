@@ -48,31 +48,11 @@ const deleteRecipes = asyncHandler(async (req, res) => {
 
   if (product) {
     await product.remove();
-    res.json({ message: "Product removed" });
+    res.json({ message: "Receta eliminada correctamente" });
   } else {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Receta no encontrada");
   }
-});
-
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
-const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
-    name: req.body.name,
-    price: req.body.price,
-    user: req.user._id,
-    image: "/images/sample.jpg",
-    brand,
-    category,
-    countInStock,
-    numReviews,
-    description,
-  });
-
-  const createdProduct = await product.save();
-  res.status(201).json(createdProduct);
 });
 
 // @desc    Update a product
@@ -114,7 +94,8 @@ const createRecipes = asyncHandler(async (req, res) => {
     serving: req.body.serving,
     category: req.body.category,
     descriptionRecipes: req.body.descriptionRecipes,
-    Ingredientes: req.body.Instruccion,
+    Ingredientes: req.body.Ingredientes,
+    Instruccion: req.body.Instruccion,
   });
 
   const recipe = await recipes.save();
@@ -131,7 +112,6 @@ export {
   getRecipes,
   getRecipesById,
   deleteRecipes,
-  createProduct,
   updateProduct,
   createRecipes,
 };

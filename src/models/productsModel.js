@@ -1,14 +1,4 @@
 import mongoose from "mongoose";
-
-const ImagesSchema = mongoose.Schema(
-  {
-    link: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
-
 const ProductsSchema = mongoose.Schema(
   {
     user: {
@@ -24,10 +14,6 @@ const ProductsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    discount: {
-      type: String,
-      require: false,
-    },
     category: {
       type: String,
       required: true,
@@ -36,7 +22,10 @@ const ProductsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    imagesList: [ImagesSchema],
+    imagesList: {
+      type: Array,
+      required: true,
+    },
   },
   {
     timestamps: true,

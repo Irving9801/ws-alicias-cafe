@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 
-const IngredientesSchema = mongoose.Schema(
-  {
-    name: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
-
 const RecipesSchema = mongoose.Schema(
   {
     user: {

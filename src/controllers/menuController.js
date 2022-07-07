@@ -47,10 +47,10 @@ const deleteMenu = asyncHandler(async (req, res) => {
 
   if (product) {
     await product.remove();
-    res.json({ message: "Product removed" });
+    res.json({ message: "Menu eliminado correctamente" });
   } else {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Menu no encontrado");
   }
 });
 
