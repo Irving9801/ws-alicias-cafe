@@ -35,7 +35,7 @@ const getMenuById = asyncHandler(async (req, res) => {
     res.json(product);
   } else {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Menu no encontrado");
   }
 });
 
@@ -76,7 +76,7 @@ const createMenu = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateMenu = asyncHandler(async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } =
+  const { name, price, description, image, brand, category} =
     req.body;
 
   const product = await Menu.findById(req.params.id);
@@ -88,13 +88,12 @@ const updateMenu = asyncHandler(async (req, res) => {
     product.image = image;
     product.brand = brand;
     product.category = category;
-    product.countInStock = countInStock;
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
   } else {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Menu no encontrado para actualizar");
   }
 });
 
