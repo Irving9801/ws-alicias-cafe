@@ -80,10 +80,10 @@ const updateProduct = asyncHandler(async (req, res) => {
   const product = await Products.findById(req.params.id);
 
   if (product) {
-    product.name = nameProdut;
+    product.nameProdut = nameProdut;
     product.price = price;
-    product.description = descriptionProduct;
-    product.image = imagesList;
+    product.descriptionProduct = descriptionProduct;
+    product.imagesList = imagesList;
     product.category = category;
 
     const updatedProduct = await product.save();
